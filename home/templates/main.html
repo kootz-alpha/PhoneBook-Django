@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login/Signup</title>
+    <style>
+        #login-form {
+            width: 400px;
+            margin: 0 auto;
+        }
+        #login-form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        #login-form input[type="text"], #login-form input[type="password"] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+        #login-form input[type="submit"] {
+            width: 100%;
+            background-color: rgb(207, 238, 53);
+            color: black;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #login-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body style="background-color: black;">
+    <div id="login-form">
+        <h1 style="color: white; text-align: center;">PhoneBook-Django</h1>
+        <form method="post">
+            {% csrf_token %}
+            
+            <input type="text" id="username" name="username" autocomplete="off" placeholder="User-name">
+            <br>
+            
+            <input type="password" id="password" name="password" autocomplete="off" placeholder="Password">
+            <br>
+            <input type="submit" value="Login" formaction="{% url 'login' %}">
+            <input type="submit" value="Signup" formaction="login/sign">
+        </form>
+    </div>
+</body>
+</html>

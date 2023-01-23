@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Container</title>
+    <style>
+        
+        #container {
+            position: absolute;
+            display: block;
+            left: 50%;
+            transform: translate(-50%, 0);
+            bottom: 0;
+            height: 85vh;
+            width: 30%;
+            background-color: #000000;
+            overflow: hidden;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+        #scroll-section {
+            flex: 1;
+            height: 80%;
+            overflow-y: scroll;
+        }
+        #scroll-section::-webkit-scrollbar {
+            display: none;
+        }
+        #search-bar {
+            position: relative;
+            width: 95%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            font-size: large;
+            padding: 5px;
+        }
+        .inner_div {
+            display: block;
+            height: 40px;
+            background-color: rgb(51, 49, 52);
+            margin: 10px;
+            border-radius: 5px;
+            padding: 5px;
+            font-family: consolas;
+            overflow: scroll;
+            font-size: large;
+            color: rgb(207, 238, 53);
+        }
+        .inner_div::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .phone {
+            float: right;
+        }
+
+        #add {
+            position: absolute;
+            bottom: 0px;
+            margin: 10px;
+            border-radius: 5px;
+            background-color: rgb(207, 238, 53);
+        }
+
+        #del {
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            margin: 10px;
+            border-radius: 5px;
+            background-color: rgb(207, 238, 53);
+        }
+
+        #add-form {
+            position: fixed;
+            width: fit-content;
+            margin: 20px;
+            right: 0%;
+            top: 50%;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            display: none;
+            border-style: solid;
+            border-color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9;
+        }
+
+        #del-form {
+            position: fixed;
+            width: fit-content;
+            margin: 20px;
+            right: 0%;
+            top: 50%;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            display: none;
+            border-style: solid;
+            border-color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9;
+        }
+
+    </style>
+</head>
+<body style="background-color: #2a2a2a;">
+
+    <div id="container">
+        <form id="search-form" action="{% url 'search' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="username" value={{username}} readonly hidden>
+            <input id="search-bar" placeholder="Search..." name="text" autocomplete="off">
+        </form>
+        
+        <div id="scroll-section">
+
+            {% for c in contacts %}
+                
+            <div class="inner_div">
+                <span>{{c.name}}</span>
+                <span class="phone">{{c.phone_number}}</span>
+            </div>
+      
+            {% endfor %}
+            
+            
+        </div>
+
+        
+
+        <button id="add" onclick="add()">Add Contact</button>
+
+        <button id="del" onclick="del()">Delete Contact</button>
+        
+    </div>
+
+    <div id="add-form">
+        <form action="{% url 'add' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="username" value={{username}} readonly hidden>
+            <input type="text" placeholder="Name" name="name" autocomplete="off">
+            <input type="text" placeholder="Phone Number" name="phone" autocomplete="off">
+            <button type="submit" style="display: block; margin-left: auto; margin-right: auto;" onclick="closeAdd()">Add</button>
+        </form>
+    </div>
+
+    <div id="del-form">
+        <form action="{% url 'del' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="username" value={{username}} readonly hidden>
+            <input type="text" placeholder="Name" name="name" autocomplete="off">
+            <button type="submit" style="display: block; margin-left: auto; margin-right: auto;" onclick="closeDel()">Delete</button>
+        </form>
+    </div>
+
+    <script>
+        function add() {
+
+            document.getElementById("add-form").style.display = "block";
+            
+        }
+
+        function closeAdd() {
+
+            document.getElementById("add-form").style.display = "none";
+
+        }
+
+        function del() {
+
+            document.getElementById("del-form").style.display = "block";
+
+        }
+
+        function closeDel() {
+
+            document.getElementById("del-form").style.display = "block";
+
+        }
+
+        document.getElementById("search-form").addEventListener("keydown", function(event) {
+            if(event.keyCode === 13) { // 13 is the keyCode for Enter
+                event.preventDefault();
+                this.submit();
+            }
+        });
+    </script>
+
+</body>
+</html>
